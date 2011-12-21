@@ -33,6 +33,10 @@ EM.run do
         
         json
       end
+      
+      aget '/' do
+        body("Battleshields operational")
+      end
     
       apost '/vote.json', :provides => :json do
         error(401, {:message => "You are not authorized to post this"}.to_json) unless authorized?
