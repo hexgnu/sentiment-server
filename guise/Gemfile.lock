@@ -1,0 +1,26 @@
+PATH
+  remote: .
+  specs:
+    guise (1.2.1)
+      hexgnu-libsvm-ruby-swig (= 0.1.3.1)
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    diff-lcs (1.1.3)
+    hexgnu-libsvm-ruby-swig (0.1.3.1)
+    rspec (2.7.0)
+      rspec-core (~> 2.7.0)
+      rspec-expectations (~> 2.7.0)
+      rspec-mocks (~> 2.7.0)
+    rspec-core (2.7.1)
+    rspec-expectations (2.7.0)
+      diff-lcs (~> 1.1.2)
+    rspec-mocks (2.7.0)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  guise!
+  rspec
