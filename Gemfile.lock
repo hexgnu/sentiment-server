@@ -1,9 +1,3 @@
-PATH
-  remote: guise
-  specs:
-    guise (1.2.1)
-      hexgnu-libsvm-ruby-swig (= 0.1.3.1)
-
 GEM
   remote: http://rubygems.org/
   specs:
@@ -14,7 +8,6 @@ GEM
     dalli (1.1.4)
     eventmachine (0.12.10)
     git (1.2.5)
-    hexgnu-libsvm-ruby-swig (0.1.3.1)
     json (1.6.3)
     rack (1.3.5)
     rack-protection (1.1.4)
@@ -38,7 +31,6 @@ DEPENDENCIES
   async_sinatra
   dalli
   git
-  guise!
   json
   sequel
   sinatra
