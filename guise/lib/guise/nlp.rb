@@ -1,5 +1,5 @@
 require 'digest/sha1'
-
+require File.expand_path("../bloominsimple", __FILE__)
 module Guise
   module NLP
     extend self
