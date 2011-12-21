@@ -1,6 +1,9 @@
 require 'hex-svm'
 require 'yaml'
-Dir[File.join(File.dirname(__FILE__), "./guise/*.rb")].each do |requirement|
-  puts "requiring #{requirement}"
-  require requirement
-end
+require File.expand_path("../guise/bit_field.rb", __FILE__)
+require File.expand_path("../guise/bloominsimple.rb", __FILE__)
+require File.expand_path("../guise/config.rb", __FILE__)
+require File.expand_path("../guise/cross_validation.rb", __FILE__)
+require File.expand_path("../guise/nlp.rb", __FILE__)
+require File.expand_path("../guise/trainer.rb", __FILE__)
+require File.expand_path("../guise/uri_strip.rb", __FILE__)
