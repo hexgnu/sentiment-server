@@ -1,3 +1,0 @@
-[submodule "guise"]
-	path = guise
-	url = git@github.com:hexgnu/guise.git
