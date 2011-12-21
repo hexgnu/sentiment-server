@@ -1,4 +1,4 @@
-DB = Sequel.connect("sqlite://guise.db")
+DB = Sequel.connect("sqlite://#{File.expand_path("../guise.db", __FILE__)}")
 
 unless DB.table_exists? :votes
   puts 'creating table'
