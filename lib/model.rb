@@ -1,12 +1,15 @@
 require 'forwardable'
+require 'digest/md5'
 module Guise
   class Sentiment
     extend Forwardable
+    attr_reader :ready
     def_delegators :@trainer, :model!, :model, :vote
     
     def initialize
       puts 'bootstrapping'
       @trainer = Guise::Trainer.new
+      @ready = true
       puts 'loading votes from db'
       Vote.each do |v|
         @trainer.vote(v.sentiment, v.text)
@@ -22,7 +25,7 @@ module Guise
     
     def background_job!
       EM.add_periodic_timer(43_200) do
-        self.model!
+        @trainer.model!
       end
     rescue Exception => e
       puts "CRAP #{e.message}"
@@ -30,9 +33,10 @@ module Guise
     end
     
     def predict(text)
-      Guise::Cache.fetch(text) do
-        @trainer.predict(text)
-      end
+      @trainer.predict(text)
+    rescue => e
+      puts e.message
+      puts e.backtrace
     end
     
     def vote(sentiment, text)
@@ -51,6 +55,7 @@ module Guise
       end
     rescue => e
       puts e.message
+      puts e.backtrace
     end
   end
 end

@@ -50,19 +50,13 @@ module Guise
       
       body({:message => @response_code}.to_json)
     end
-  
-    apost '/predict.json' do
-      content_type 'application/json', :charset => 'utf-8'
-      json = json_correct(request, %w[text])
-      body({:sentiment => SentimentEngine.predict(json['text'])}.to_json)
-    end
     
     apost '/predictMany.json' do
       content_type 'application/json', :charset => 'utf-8'
       begin
         json = json_correct(request, %w[texts])
-        puts json.inspect
-        @resp = SentimentEngine.predict_many(json['texts'])
+        texts = json['texts']
+        @resp = SentimentEngine.predict_many(texts)
         body(@resp.to_json)
       rescue => e
         body(e.backtrace)
@@ -70,6 +64,4 @@ module Guise
     end
   end
 end
-
-Guise::Cache = Dalli::Client.new
 

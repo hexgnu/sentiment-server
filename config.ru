@@ -10,6 +10,7 @@ require './guise-service'
 
 run Guise::Service
 
+require './lib/cache'
 
 EM.defer do
   SentimentEngine = Guise::Sentiment.new

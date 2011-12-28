@@ -15,22 +15,17 @@ module Guise
     # Can take in a dictionary of words stored in the database or wherever
     def initialize(word_set = [], load_data = true)
       @rows = []
-      @word_set = word_set 
-      
+      @word_set = word_set
       if load_data
-        @rows = initial_rows
-        @word_set |= initial_word_set
+        puts "Loading training data..."
+        load_training_data! 
+        puts "Loading positive training data..."
+        load_positive_training_data!
+        puts "Loading negative training data..."
+        load_negative_training_data!
       end
     end
     
-    
-    def initial_word_set
-      YAML::load(File.open(File.join(DIR, "../../data/initial_word_set.yml")))
-    end
-    
-    def initial_rows
-      YAML::load(File.open(File.join(DIR, "../../data/initial_rows.yml")))
-    end
     
     # Deprecating this method call to use Guise::NLP.clean(text) instead
     def clean(text = "")
@@ -81,8 +76,13 @@ module Guise
     
     # Returns a prediction based on training data when fed in a block of text
     def predict(text)
-      indexes = indicies(Guise::NLP.clean(text)).compact
-      model.predict(indexes)
+      words = Guise::NLP.clean(text)
+      if words.empty? || indicies(words).compact.empty?
+        0
+      else
+        indexes = indicies(words).compact
+        model.predict(indexes)
+      end
     end
     
     # Helper function for finding indicies of words in word_set
@@ -108,6 +108,25 @@ module Guise
     
     def to_s
       "< Guise::Trainer: Current size: #{@word_set.length} >"
+    end
+    
+    private
+    
+    %w[positive negative].each do |sentiment|
+      define_method("load_#{sentiment}_training_data!") do
+        File.open(File.join(DIR, "../../data/#{sentiment}_words.txt")).each do |line|
+          vote((sentiment == "positive") ? 1 : -1, line)
+        end
+      end
+    end
+    
+    
+    def load_training_data!
+      YAML::load(File.open(File.join(DIR, "../../data/output.yml"))).each do |row|
+        if row[:answer].values.first != "-2"
+          vote(row[:answer].values.first.to_i, row[:question])
+        end
+      end
     end
   end
 end
