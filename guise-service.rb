@@ -53,6 +53,7 @@ module Guise
     
     apost '/predictMany.json' do
       content_type 'application/json', :charset => 'utf-8'
+      error(400, {:message => "Not available"}.to_json) unless defined?(SentimentEngine)
       begin
         json = json_correct(request, %w[texts])
         texts = json['texts']
